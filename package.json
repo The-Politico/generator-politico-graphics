@@ -1,0 +1,34 @@
+{
+  "name": "generator-politico-graphics",
+  "version": "0.0.1",
+  "description": "Generator for developing graphic modules at POLITICO.",
+  "main": "generators/app/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "author": {
+    "name": "Jon McClure",
+    "email": "jmcclure@politico.com",
+    "url": "https://github.com/The-Politico"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "mkdirp": "^0.5.1",
+    "string": "^3.3.3",
+    "yeoman-generator": "^1.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3"
+  }
+}
