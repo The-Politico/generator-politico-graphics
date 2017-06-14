@@ -47,4 +47,4 @@ The generator includes a basic example of a reusable chart function in `src/js/c
 
 ## Prior art
 
-[generator-dmninteractives](https://github.com/DallasMorningNews/generator-dmninteractives/tree/master/generators/graphic-module)
+[generator-dmninteractives:graphic-module](https://github.com/DallasMorningNews/generator-dmninteractives/tree/master/generators/graphic-module)
