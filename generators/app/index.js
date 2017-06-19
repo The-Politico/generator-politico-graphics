@@ -3,6 +3,10 @@ const mkdirp = require('mkdirp');
 const S = require('string');
 
 module.exports = class extends Generator {
+  initializing() {
+    this.composeWith('politico-interactives:linters');
+  }
+
   prompting() {
     const prompts = [{
       name: 'appName',
@@ -35,14 +39,14 @@ module.exports = class extends Generator {
       this.templatePath('gitignore'),
       this.destinationPath('./.gitignore'));
     this.fs.copy(
-      this.templatePath('eslintrc'),
-      this.destinationPath('./.eslintrc'));
-    this.fs.copy(
       this.templatePath('preview.png'),
       this.destinationPath('./preview.png'));
     this.fs.copy(
       this.templatePath('src/js/chart.js'),
       this.destinationPath('./src/js/chart.js'));
+    this.fs.copy(
+      this.templatePath('src/js/d3.js'),
+      this.destinationPath('./src/js/d3.js'));
     this.fs.copyTpl(
       this.templatePath('src/js/global-chart.js'),
       this.destinationPath('./src/js/global-chart.js'),
