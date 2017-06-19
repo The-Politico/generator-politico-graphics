@@ -8,9 +8,9 @@ A [Yeoman](http://yeoman.io) generator to scaffold a development environment for
 
 Make sure you have [node](https://docs.npmjs.com/getting-started/installing-node) installed as well as the [yarn](https://yarnpkg.com/en/docs/install) package manager.
 
-Then install [gulp](http://gulpjs.com/), [yeoman](http://yeoman.io/) and this generator, globally*:
+Then install [gulp](http://gulpjs.com/), [yeoman](http://yeoman.io/) and required POLITICO generators, globally*:
 ```
-$ npm install -g gulp-cli yo generator-politico-graphics
+$ npm install -g gulp-cli yo generator-politico-graphics generator-politico-interactives
 ```
 _\* You may need to prefix with `sudo`_
 
@@ -41,7 +41,7 @@ Develop files in the `src` directory and they will be automatically compiled to 
 
 ### Developing your graphic module
 
-Read [this](https://bost.ocks.org/mike/chart/) for the theory behind reusable chart templates.
+Read [this](https://bost.ocks.org/mike/chart/) for the theory behind reusable chart templates, and the README included when you run the generator.
 
 The generator includes a basic example of a reusable chart function in `src/js/chart.js` you can rework to your own use.
 
