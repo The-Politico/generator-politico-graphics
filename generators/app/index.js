@@ -4,6 +4,7 @@ const S = require('string');
 
 module.exports = class extends Generator {
   initializing() {
+    this.composeWith('politico-interactives:passphrase');
     this.composeWith('politico-interactives:linters');
   }
 
