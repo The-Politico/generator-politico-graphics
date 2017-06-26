@@ -1,6 +1,6 @@
 ![POLITICO](https://rawgithub.com/The-Politico/src/master/images/logo/badge.png)
 
-# generator-politico-graphics
+# generator-politico-graphics [![npm](https://img.shields.io/npm/v/generator-politico-graphics.svg)](https://www.npmjs.com/package/generator-politico-graphics)
 
 A [Yeoman](http://yeoman.io) generator to scaffold a development environment for building reusable graphic modules at POLITICO.
 
