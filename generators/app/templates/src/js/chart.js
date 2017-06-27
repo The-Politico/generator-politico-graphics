@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import d3 from './d3';
 
 // This is the chart function that will be exported
@@ -65,7 +66,7 @@ export default () => ({
     // Getter-setters merge any provided properties with defaults.
     chart.props = (obj) => {
       if (!obj) return props;
-      props = Object.assign(props, obj);
+      props = _.merge(props, obj);
       return chart;
     };
 

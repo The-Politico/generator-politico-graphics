@@ -118,17 +118,8 @@ circles
   .attr('fill', props.fill);
 ```
 
-When a user calls your chart with custom props, they are shallowly merged with defaults in a getter-setter using [Object.assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign).
-
-```javascript
-chart.props = (obj) => {
-  if (!obj) return props;
-  props = Object.assign(props, obj);
-  return chart;
-};
-```
-
-You can also use a deep merging function like lodash's [`_.merge`](https://lodash.com/docs/4.17.4#merge), if needed.
+When a user calls your chart with custom props, they are merged with defaults in a getter-setter using
+lodash's [`_.merge`](https://lodash.com/docs/4.17.4#merge).
 
 ```javascript
 let props = {

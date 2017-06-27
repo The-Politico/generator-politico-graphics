@@ -9,6 +9,7 @@
 <div id='chart'></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
 <script src="js/global-chart.js"></script>
 
 <script>
@@ -29,6 +30,14 @@ setTimeout(function(){
     myChart.update(data);
   });
 }, 5000);
+
+// Call resize function wrapped in debounce
+const resizeDb = _.debounce(() => {
+  myChart.resize();
+}, 400);
+
+$(window).on('resize', resizeDb);
+
 </script>
 
 </body>
