@@ -6,6 +6,10 @@ module.exports = class extends Generator {
   initializing() {
     this.composeWith('politico-interactives:passphrase');
     this.composeWith('politico-interactives:linters');
+    this.composeWith('politico-interactives:bundler-webpack', {
+      nunjucks: false
+    });
+    this.composeWith('politico-interactives:gulp');
   }
 
   prompting() {
@@ -34,9 +38,6 @@ module.exports = class extends Generator {
         objName: this.objName,
       });
     this.fs.copy(
-      this.templatePath('gulpfile.js'),
-      this.destinationPath('./gulpfile.js'));
-    this.fs.copy(
       this.templatePath('gitignore'),
       this.destinationPath('./.gitignore'));
     this.fs.copy(
@@ -49,8 +50,8 @@ module.exports = class extends Generator {
       this.templatePath('src/js/d3.js'),
       this.destinationPath('./src/js/d3.js'));
     this.fs.copyTpl(
-      this.templatePath('src/js/global-chart.js'),
-      this.destinationPath('./src/js/global-chart.js'),
+      this.templatePath('src/js/main.js'),
+      this.destinationPath('./src/js/main.js'),
       { objName: this.objName });
     this.fs.copyTpl(
       this.templatePath('src/scss/_variables.scss'),
@@ -65,49 +66,25 @@ module.exports = class extends Generator {
       this.destinationPath('./src/scss/styles.scss'),
       { objName: this.objName });
     this.fs.copy(
-      this.templatePath('gulp/index.js'),
-      this.destinationPath('./gulp/index.js'));
+      this.templatePath('src/data/create.json'),
+      this.destinationPath('./src/data/create.json'));
     this.fs.copy(
-      this.templatePath('gulp/tasks/browserify.js'),
-      this.destinationPath('./gulp/tasks/browserify.js'));
-    this.fs.copy(
-      this.templatePath('gulp/tasks/sass.js'),
-      this.destinationPath('./gulp/tasks/sass.js'));
-    this.fs.copy(
-      this.templatePath('gulp/tasks/server.js'),
-      this.destinationPath('./gulp/tasks/server.js'));
+      this.templatePath('src/data/update.json'),
+      this.destinationPath('./src/data/update.json'));
     this.fs.copyTpl(
-      this.templatePath('dist/index.html'),
-      this.destinationPath('./dist/index.html'),
-      { objName: this.objName });
-    this.fs.copy(
-      this.templatePath('dist/data/create.json'),
-      this.destinationPath('./dist/data/create.json'));
-    this.fs.copy(
-      this.templatePath('dist/data/update.json'),
-      this.destinationPath('./dist/data/update.json'));
+      this.templatePath('src/templates/index.html'),
+      this.destinationPath('./src/templates/index.html'), {
+        objName: this.objName
+      });
     mkdirp('./dist/css');
+    mkdirp('./dist/data');
     mkdirp('./dist/js');
   }
 
   install() {
     const dependencies = [
-      'babelify',
-      'babel-preset-es2015',
-      'browser-sync',
-      'browserify',
       'd3',
-      'event-stream',
-      'gulp',
-      'gulp-babili',
-      'gulp-cssnano',
-      'gulp-if',
-      'gulp-sass',
-      'gulp-sourcemaps',
-      'gulp-util',
-      'vinyl-buffer',
-      'vinyl-source-stream',
-      'watchify',
+      'lodash',
     ];
 
     this.yarnInstall(dependencies, { save: true });
