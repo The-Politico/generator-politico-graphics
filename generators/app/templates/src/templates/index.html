@@ -17,7 +17,7 @@
 var myChart = new <%= objName %>();
 // This is the initial draw, which needs a selection string and data.
 // You can also pass a props object.
-$.getJSON('data/create.json', function(data){
+$.getJSON('data/data.json', function(data){
   myChart.create("#chart", data, {
     stroke: '#333',
   });

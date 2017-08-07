@@ -7,9 +7,12 @@ module.exports = class extends Generator {
     this.composeWith('politico-interactives:passphrase');
     this.composeWith('politico-interactives:linters');
     this.composeWith('politico-interactives:bundler-webpack', {
-      nunjucks: false
+      context: false
     });
-    this.composeWith('politico-interactives:gulp');
+    this.composeWith('politico-interactives:gulp', {
+      spreadsheet: true
+    });
+    this.composeWith('politico-interactives:spreadsheet');
   }
 
   prompting() {
@@ -66,8 +69,8 @@ module.exports = class extends Generator {
       this.destinationPath('./src/scss/styles.scss'),
       { objName: this.objName });
     this.fs.copy(
-      this.templatePath('src/data/create.json'),
-      this.destinationPath('./src/data/create.json'));
+      this.templatePath('src/data/data.json'),
+      this.destinationPath('./src/data/data.json'));
     this.fs.copy(
       this.templatePath('src/data/update.json'),
       this.destinationPath('./src/data/update.json'));
