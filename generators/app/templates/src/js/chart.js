@@ -1,5 +1,7 @@
 import d3 from './d3';
 
+const defaultData = require('../data/data.json');
+
 // This is the chart function that will be exported
 export default () => ({
 
@@ -87,7 +89,7 @@ export default () => ({
   // Creates the chart initially.
   create(selection, data, props) {
     this._selection = selection;
-    this._data = data;
+    this._data = data ? data : defaultData;
     this._props = props || {};
 
     this.draw();
@@ -95,7 +97,7 @@ export default () => ({
 
   // Updates the elements with new data.
   update(data) {
-    this._data = data;
+    this._data = data ? data : defaultData;
     this.draw();
   },
 

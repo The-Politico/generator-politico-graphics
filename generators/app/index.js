@@ -9,10 +9,6 @@ module.exports = class extends Generator {
     this.composeWith('politico-interactives:bundler-webpack', {
       context: false
     });
-    this.composeWith('politico-interactives:gulp', {
-      spreadsheet: true
-    });
-    this.composeWith('politico-interactives:spreadsheet');
   }
 
   prompting() {
@@ -22,11 +18,24 @@ module.exports = class extends Generator {
     }, {
       name: 'objName',
       message: 'What\'s the name of the chart class users will call, e.g., "UsaChoropleth"?',
+    }, {
+      type: 'confirm',
+      name: 'spreadsheet',
+      message: 'Would you like Google Spreadsheet integration?',
+      default: false
     }];
     return this.prompt(prompts).then((answers) => {
       this.appName = answers.appName;
       this.objName = S(answers.objName).camelize().s;
+      this.spreadsheet = answers.spreadsheet;
     });
+  }
+
+  template() {
+    this.composeWith('politico-interactives:gulp', {
+      spreadsheet: this.spreadsheet
+    });
+    if (this.spreadsheet) this.composeWith('politico-interactives:spreadsheet');
   }
 
   writing() {
@@ -53,8 +62,8 @@ module.exports = class extends Generator {
       this.templatePath('src/js/d3.js'),
       this.destinationPath('./src/js/d3.js'));
     this.fs.copyTpl(
-      this.templatePath('src/js/main.js'),
-      this.destinationPath('./src/js/main.js'),
+      this.templatePath('src/js/main-chart.js'),
+      this.destinationPath('./src/js/main-chart.js'),
       { objName: this.objName });
     this.fs.copyTpl(
       this.templatePath('src/scss/_variables.scss'),
