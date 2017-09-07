@@ -9,6 +9,9 @@ module.exports = class extends Generator {
     this.composeWith('politico-interactives:bundler-webpack', {
       context: false
     });
+    this.composeWith('politico-interactives:router', {
+      context: false
+    });
   }
 
   prompting() {
