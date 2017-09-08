@@ -41,7 +41,7 @@ Develop files in the `src` directory and they will be automatically compiled to 
 
 ### Developing your graphic module
 
-Read [this](https://bost.ocks.org/mike/chart/) for the theory behind reusable chart templates, and the README included when you run the generator.
+Read the [DEVELOPING](generators/app/templates/DEVELOPING.md) doc included when you run the generator for specifics about this module pattern.
 
 The generator includes a basic example of a reusable chart function in `src/js/chart.js` you can rework to your own use.
 

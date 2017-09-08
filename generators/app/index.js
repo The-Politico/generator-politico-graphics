@@ -47,11 +47,14 @@ module.exports = class extends Generator {
       this.destinationPath('./package.json'),
       { appName: this.appName });
     this.fs.copyTpl(
-      this.templatePath('README'),
+      this.templatePath('README.md'),
       this.destinationPath('./README.md'), {
         appName: this.appName,
         objName: this.objName,
       });
+    this.fs.copy(
+      this.templatePath('DEVELOPING.md'),
+      this.destinationPath('./DEVELOPING.md'));
     this.fs.copy(
       this.templatePath('gitignore'),
       this.destinationPath('./.gitignore'));
