@@ -7,10 +7,10 @@ module.exports = class extends Generator {
     this.composeWith('politico-interactives:passphrase');
     this.composeWith('politico-interactives:linters');
     this.composeWith('politico-interactives:bundler-webpack', {
-      context: false
+      context: false,
     });
     this.composeWith('politico-interactives:router', {
-      context: false
+      context: false,
     });
   }
 
@@ -25,7 +25,7 @@ module.exports = class extends Generator {
       type: 'confirm',
       name: 'spreadsheet',
       message: 'Would you like Google Spreadsheet integration?',
-      default: false
+      default: false,
     }];
     return this.prompt(prompts).then((answers) => {
       this.appName = answers.appName;
@@ -35,9 +35,7 @@ module.exports = class extends Generator {
   }
 
   template() {
-    this.composeWith('politico-interactives:gulp', {
-      spreadsheet: this.spreadsheet
-    });
+    this.composeWith('politico-interactives:gulp-common');
     if (this.spreadsheet) this.composeWith('politico-interactives:spreadsheet');
   }
 
@@ -58,6 +56,12 @@ module.exports = class extends Generator {
     this.fs.copy(
       this.templatePath('gitignore'),
       this.destinationPath('./.gitignore'));
+    this.fs.copyTpl(
+      this.templatePath('gulpfile.js'),
+      this.destinationPath('gulpfile.js'),
+      {
+        spreadsheet: this.spreadsheet
+      });
     this.fs.copy(
       this.templatePath('preview.png'),
       this.destinationPath('./preview.png'));
@@ -92,11 +96,22 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('src/templates/index.html'),
       this.destinationPath('./src/templates/index.html'), {
-        objName: this.objName
+        objName: this.objName,
       });
     mkdirp('./dist/css');
     mkdirp('./dist/data');
     mkdirp('./dist/js');
+
+    const publishPath = `cdn/chart-modules/${this.appName}/`;
+    const url = `https://www.politico.com/interactives/${publishPath}`;
+
+    const metaJSON = {
+      id: (Math.floor(Math.random() * 100000000000) + 1).toString(),
+      publishPath,
+      url: `${url}`,
+    };
+
+    this.fs.writeJSON('meta.json', metaJSON);
   }
 
   install() {
