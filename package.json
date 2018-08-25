@@ -20,8 +20,11 @@
   "license": "ISC",
   "repository": "The-Politico/generator-politico-graphics",
   "dependencies": {
+    "@octokit/rest": "^15.10.0",
+    "chalk": "^2.4.1",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
+    "simple-git": "^1.96.0",
     "string": "^3.3.3",
     "yeoman-generator": "^1.1.1"
   },

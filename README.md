@@ -2,17 +2,15 @@
 
 # generator-politico-graphics [![npm](https://img.shields.io/npm/v/generator-politico-graphics.svg)](https://www.npmjs.com/package/generator-politico-graphics)
 
-A [Yeoman](http://yeoman.io) generator to scaffold a development environment for building reusable graphic modules at POLITICO.
+A [Yeoman](http://yeoman.io) generator to scaffold a development environment for building reusable graphic modules.
 
 ### What you'll need installed
 
-Make sure you have [node](https://docs.npmjs.com/getting-started/installing-node) installed as well as the [yarn](https://yarnpkg.com/en/docs/install) package manager.
+Make sure you have [node](https://docs.npmjs.com/getting-started/installing-node), the [yarn](https://yarnpkg.com/en/docs/install) package manager, [yeoman](http://yeoman.io/) and this generator installed:
 
-Then install [gulp](http://gulpjs.com/), [yeoman](http://yeoman.io/) and required POLITICO generators, globally*:
+```bash
+$ npm install -g yarn yo generator-politico-graphics
 ```
-$ npm install -g gulp-cli yo generator-politico-graphics generator-politico-interactives
-```
-_\* You may need to prefix with `sudo`_
 
 ## How to use
 
@@ -31,20 +29,14 @@ Now run the generator and answer the questions it asks to build your dev environ
 $ yo politico-graphics
 ```
 
-Run gulp to start the development server.
+Start the development server.
 
 ```bash
-$ gulp
+$ yarn start
 ```
-
-Develop files in the `src` directory and they will be automatically compiled to the `dist` directory.
 
 ### Developing your graphic module
 
-Read the [DEVELOPING](generators/app/templates/DEVELOPING.md) doc included when you run the generator for specifics about this module pattern.
+Read [this](https://bost.ocks.org/mike/chart/) for the theory behind reusable chart templates. The README included when you run the generator includes more tips for using the this pattern.
 
-The generator includes a basic example of a reusable chart function in `src/js/chart.js` you can rework to your own use.
-
-## Prior art
-
-[generator-dmninteractives:graphic-module](https://github.com/DallasMorningNews/generator-dmninteractives/tree/master/generators/graphic-module)
+The generator includes a basic example of a reusable chart function in `src/js/lib/chart.js`. You can rework it to your own use.

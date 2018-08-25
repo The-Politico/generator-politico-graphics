@@ -1,55 +1,81 @@
 const Generator = require('yeoman-generator');
-const mkdirp = require('mkdirp');
 const S = require('string');
+const path = require('path');
 
 module.exports = class extends Generator {
   initializing() {
-    this.composeWith('politico-interactives:passphrase');
-    this.composeWith('politico-interactives:linters');
-    this.composeWith('politico-interactives:bundler-webpack', {
-      context: false,
-    });
-    this.composeWith('politico-interactives:router', {
-      context: false,
-    });
+    this.composeWith(require.resolve('../github'));
   }
 
   prompting() {
     const prompts = [{
-      name: 'appName',
-      message: 'What\'s your project slug, e.g., "politico-chart-scatterplot"?',
+      name: 'pkgName',
+      message: 'What should we call your package, e.g., "politico_scatterplot-module"?',
+      default: path.basename(process.cwd()),
     }, {
-      name: 'objName',
-      message: 'What\'s the name of the chart class users will call, e.g., "UsaChoropleth"?',
-    }, {
-      type: 'confirm',
-      name: 'spreadsheet',
-      message: 'Would you like Google Spreadsheet integration?',
-      default: false,
+      name: 'clsName',
+      message: 'What class will users call to use your chart, e.g., "ScatterplotChart"?',
+      default: answers => S(answers.pkgName)
+        .camelize().s
+        .replace(/^\w/, c => c.toUpperCase()),
     }];
     return this.prompt(prompts).then((answers) => {
-      this.appName = answers.appName;
-      this.objName = S(answers.objName).camelize().s;
-      this.spreadsheet = answers.spreadsheet;
+      this.pkgName = S(answers.pkgName).slugify().s;
+      this.clsName = S(answers.clsName).camelize().s
+        .replace(/^\w/, c => c.toUpperCase());
     });
   }
 
-  template() {
-    this.composeWith('politico-interactives:gulp-common');
-    if (this.spreadsheet) this.composeWith('politico-interactives:spreadsheet');
-  }
-
   writing() {
+    this.fs.copy(
+      this.templatePath('config/rollup.esm.js'),
+      this.destinationPath('./config/rollup.esm.js'));
+    this.fs.copy(
+      this.templatePath('config/rollup.lib.js'),
+      this.destinationPath('./config/rollup.lib.js'));
+    this.fs.copy(
+      this.templatePath('config/webpack.dev.js'),
+      this.destinationPath('./config/webpack.dev.js'));
+    this.fs.copy(
+      this.templatePath('config/webpack.docs.js'),
+      this.destinationPath('./config/webpack.docs.js'));
+
+    this.fs.copy(
+      this.templatePath('src/js/demo/App.jsx'),
+      this.destinationPath('./src/js/demo/App.jsx'));
+    this.fs.copy(
+      this.templatePath('src/js/demo/Chart.jsx'),
+      this.destinationPath('./src/js/demo/Chart.jsx'));
+    this.fs.copy(
+      this.templatePath('src/js/lib/data/default.json'),
+      this.destinationPath('./src/js/lib/data/default.json'));
+    this.fs.copy(
+      this.templatePath('src/js/lib/utils/d3.js'),
+      this.destinationPath('./src/js/lib/utils/d3.js'));
+    this.fs.copy(
+      this.templatePath('src/js/lib/chart.js'),
+      this.destinationPath('./src/js/lib/chart.js'));
+    this.fs.copy(
+      this.templatePath('src/js/lib/global.js'),
+      this.destinationPath('./src/js/lib/global.js'));
+
     this.fs.copyTpl(
-      this.templatePath('package.json'),
-      this.destinationPath('./package.json'),
-      { appName: this.appName });
+      this.templatePath('src/scss/_chart.scss'),
+      this.destinationPath('./src/scss/_chart.scss'),
+      { clsName: this.clsName });
     this.fs.copyTpl(
-      this.templatePath('README.md'),
-      this.destinationPath('./README.md'), {
-        appName: this.appName,
-        objName: this.objName,
-      });
+      this.templatePath('src/scss/_variables.scss'),
+      this.destinationPath('./src/scss/_variables.scss'),
+      { clsName: this.clsName });
+    this.fs.copyTpl(
+      this.templatePath('src/scss/global.scss'),
+      this.destinationPath('./src/scss/global.scss'),
+      { clsName: this.clsName });
+    this.fs.copyTpl(
+      this.templatePath('src/scss/styles.scss'),
+      this.destinationPath('./src/scss/styles.scss'),
+      { clsName: this.clsName });
+
     this.fs.copy(
       this.templatePath('DEVELOPING.md'),
       this.destinationPath('./DEVELOPING.md'));
@@ -57,73 +83,29 @@ module.exports = class extends Generator {
       this.templatePath('gitignore'),
       this.destinationPath('./.gitignore'));
     this.fs.copyTpl(
-      this.templatePath('gulpfile.js'),
-      this.destinationPath('gulpfile.js'),
-      {
-        spreadsheet: this.spreadsheet
-      });
+      this.templatePath('package.json'),
+      this.destinationPath('./package.json'),
+      { pkgName: this.pkgName });
     this.fs.copy(
       this.templatePath('preview.png'),
       this.destinationPath('./preview.png'));
-    this.fs.copy(
-      this.templatePath('src/js/chart.js'),
-      this.destinationPath('./src/js/chart.js'));
-    this.fs.copy(
-      this.templatePath('src/js/d3.js'),
-      this.destinationPath('./src/js/d3.js'));
     this.fs.copyTpl(
-      this.templatePath('src/js/main-chart.js'),
-      this.destinationPath('./src/js/main-chart.js'),
-      { objName: this.objName });
-    this.fs.copyTpl(
-      this.templatePath('src/scss/_variables.scss'),
-      this.destinationPath('./src/scss/_variables.scss'),
-      { objName: this.objName });
-    this.fs.copyTpl(
-      this.templatePath('src/scss/_chart-styles.scss'),
-      this.destinationPath('./src/scss/_chart-styles.scss'),
-      { objName: this.objName });
-    this.fs.copyTpl(
-      this.templatePath('src/scss/styles.scss'),
-      this.destinationPath('./src/scss/styles.scss'),
-      { objName: this.objName });
-    this.fs.copy(
-      this.templatePath('src/data/data.json'),
-      this.destinationPath('./src/data/data.json'));
-    this.fs.copy(
-      this.templatePath('src/data/update.json'),
-      this.destinationPath('./src/data/update.json'));
-    this.fs.copyTpl(
-      this.templatePath('src/templates/index.html'),
-      this.destinationPath('./src/templates/index.html'), {
-        objName: this.objName,
+      this.templatePath('README'),
+      this.destinationPath('./README.md'), {
+        pkgName: this.pkgName,
+        clsName: this.clsName,
       });
-    mkdirp('./dist/css');
-    mkdirp('./dist/data');
-    mkdirp('./dist/js');
-
-    const publishPath = `cdn/chart-modules/${this.appName}/`;
-    const url = `https://www.politico.com/interactives/${publishPath}`;
-
-    const metaJSON = {
-      id: (Math.floor(Math.random() * 100000000000) + 1).toString(),
-      publishPath,
-      url: `${url}`,
-    };
-
-    this.fs.writeJSON('meta.json', metaJSON);
   }
 
   install() {
-    const dependencies = [
-      'd3',
-      'lodash',
-    ];
-
-    this.yarnInstall(dependencies, { save: true });
+    this.installDependencies({
+      yarn: true,
+      npm: false,
+      bower: false,
+    });
   }
 
   end() {
-    this.spawnCommand('gulp');
+    this.spawnCommand('yarn start');
   }
 };

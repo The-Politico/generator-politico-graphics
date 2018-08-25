@@ -1,9 +1,17 @@
 @import 'variables';
-@import 'chart-styles';
+@import 'chart';
 
-#{$<%= objName %>-container} {
-  border: 1px dashed red;
+@import '~politico-style/scss/sketch/main.scss';
+
+#{$<%= clsName %>-container} {
+  border: 1px dashed lightgrey;
   width: 50%;
   min-width: 290px;
   height:400px;
+  margin: 20px auto;
+  min-height: calc(100vh - 165px);
+}
+
+nav.global b{
+  color: $politico-dark-red;
 }
