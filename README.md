@@ -4,6 +4,8 @@
 
 A [Yeoman](http://yeoman.io) generator to scaffold a development environment for building reusable graphic modules.
 
+## How to use
+
 ### What you'll need installed
 
 Make sure you have [node](https://docs.npmjs.com/getting-started/installing-node), the [yarn](https://yarnpkg.com/en/docs/install) package manager, [yeoman](http://yeoman.io/) and this generator installed:
@@ -12,7 +14,7 @@ Make sure you have [node](https://docs.npmjs.com/getting-started/installing-node
 $ npm install -g yarn yo generator-politico-graphics
 ```
 
-## How to use
+If you'd like the generator to be able to create a GitHub repo for you while it's creating your development environment, export an environment variable with a Github [personal access token](https://github.com/settings/tokens) to `GITHUB_TOKEN`. It will then prompt you to ask whether you'd like a repo made.
 
 ### Starting a new graphic module
 

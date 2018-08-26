@@ -4,7 +4,9 @@ const path = require('path');
 
 module.exports = class extends Generator {
   initializing() {
-    this.composeWith(require.resolve('../github'));
+    if (process.env.GITHUB_TOKEN) {
+      this.composeWith(require.resolve('../github'));
+    }
   }
 
   prompting() {
@@ -40,9 +42,10 @@ module.exports = class extends Generator {
       this.templatePath('config/webpack.docs.js'),
       this.destinationPath('./config/webpack.docs.js'));
 
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('src/js/demo/App.jsx'),
-      this.destinationPath('./src/js/demo/App.jsx'));
+      this.destinationPath('./src/js/demo/App.jsx'),
+      { clsName: this.clsName });
     this.fs.copy(
       this.templatePath('src/js/demo/Chart.jsx'),
       this.destinationPath('./src/js/demo/Chart.jsx'));
@@ -58,6 +61,9 @@ module.exports = class extends Generator {
     this.fs.copy(
       this.templatePath('src/js/lib/global.js'),
       this.destinationPath('./src/js/lib/global.js'));
+    this.fs.copy(
+      this.templatePath('src/index.html'),
+      this.destinationPath('./src/index.html'));
 
     this.fs.copyTpl(
       this.templatePath('src/scss/_chart.scss'),
@@ -77,6 +83,9 @@ module.exports = class extends Generator {
       { clsName: this.clsName });
 
     this.fs.copy(
+      this.templatePath('eslintrc.json'),
+      this.destinationPath('./.eslintrc.json'));
+    this.fs.copy(
       this.templatePath('DEVELOPING.md'),
       this.destinationPath('./DEVELOPING.md'));
     this.fs.copy(
@@ -90,7 +99,7 @@ module.exports = class extends Generator {
       this.templatePath('preview.png'),
       this.destinationPath('./preview.png'));
     this.fs.copyTpl(
-      this.templatePath('README'),
+      this.templatePath('README.md'),
       this.destinationPath('./README.md'), {
         pkgName: this.pkgName,
         clsName: this.clsName,
@@ -106,6 +115,6 @@ module.exports = class extends Generator {
   }
 
   end() {
-    this.spawnCommand('yarn start');
+    this.spawnCommand('yarn', ['start']);
   }
 };

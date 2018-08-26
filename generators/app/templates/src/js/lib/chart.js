@@ -5,10 +5,10 @@ import defaultData from './data/default.json';
 export default () => ({
 
   /**
-   * Develop the reusable function for your chart in this render function.
+   * Develop your chart in this render function.
    *
-   * For explanation of this pattern, see Mike Bostock's proposal for reudable
-   * chart functions: https://bost.ocks.org/mike/chart/
+   * For more details about this pattern, see Mike Bostock's proposal for
+   * reusable charts: https://bost.ocks.org/mike/chart/
    */
   render() {
     /**

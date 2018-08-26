@@ -119,7 +119,7 @@ typings/
 # Serverless directories
 .serverless
 
-
 # End of https://www.gitignore.io/api/node,macos,linux
 
+.yo-rc.json
 dist/
