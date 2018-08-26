@@ -2,7 +2,7 @@
 
 ### Theory
 
-Read Mike Bostock's foundational doc, _[Towards Reusable Charts](https://bost.ocks.org/mike/chart/)_.
+Read Mike Bostock's foundational doc, "[Towards Reusable Charts](https://bost.ocks.org/mike/chart/)."
 
 This chart module pattern supplements Bostock's reusable proposal by emphasizing [idempotence](http://www.restapitutorial.com/lessons/idempotency.html) in the chart's render method. This means all state is external to the chart, passed to it through function parameters. This configuration makes charts extremely portable. You get a single chart function you can call anywhere in your code at anytime in the DOM process, making it easy to create multiples of the same chart and to handle resize events and updates to the underlying data.
 
