@@ -1,6 +1,6 @@
 {
   "name": "generator-politico-graphics",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Generator for developing graphic modules at POLITICO.",
   "main": "generators/app/index.js",
   "scripts": {
@@ -17,19 +17,26 @@
     "email": "jmcclure@politico.com",
     "url": "https://github.com/The-Politico"
   },
-  "license": "ISC",
+  "license": "MIT",
   "repository": "The-Politico/generator-politico-graphics",
   "dependencies": {
+    "@octokit/rest": "^15.10.0",
+    "chalk": "^2.4.1",
     "lodash": "^4.17.4",
-    "mkdirp": "^0.5.1",
+    "simple-git": "^1.96.0",
     "string": "^3.3.3",
     "yeoman-generator": "^1.1.1"
   },
   "devDependencies": {
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.3"
+    "@babel/core": "^7.0.0-beta.56",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^8.2.5",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0"
   }
 }

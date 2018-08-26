@@ -1,8 +1,8 @@
-# Developing
+# Developing chart modules
 
 ### Theory
 
-Read Mike Bostock's foundational doc, _[Towards Reusable Charts](https://bost.ocks.org/mike/chart/)_.
+Read Mike Bostock's foundational doc, "[Towards Reusable Charts](https://bost.ocks.org/mike/chart/)."
 
 This chart module pattern supplements Bostock's reusable proposal by emphasizing [idempotence](http://www.restapitutorial.com/lessons/idempotency.html) in the chart's render method. This means all state is external to the chart, passed to it through function parameters. This configuration makes charts extremely portable. You get a single chart function you can call anywhere in your code at anytime in the DOM process, making it easy to create multiples of the same chart and to handle resize events and updates to the underlying data.
 
@@ -10,16 +10,16 @@ This chart module pattern supplements Bostock's reusable proposal by emphasizing
 
 #### Writing code
 
-Write your chart code in `chart.js` and add custom styles to `_chart-styles.scss`.
+Write your chart code in `js/lib/chart.js` and add custom styles to `scss/_chart.scss`.
 
-Run gulp to compile scripts:
+Develop with:
 ```bash
-$ gulp
+$ yarn start
 ```
 
-To minimize javascript before publishing:
+Build for production with:
 ```bash
-$ gulp --production
+$ yarn build
 ```
 
 #### Writing idempotent charts with `appendSelect`
@@ -33,18 +33,24 @@ selection.appendSelect(<selector_string>, <class_string>);
 // class_string is optional
 ```
 
-This helps you avoid awkward constructions and write succinct code when appending non-data bound elements. For example:
+This helps you avoid awkward constructions and write succinct code when appending non-data-bound elements. For example:
 
 ```javascript
-// Use this...
+// Use this:
 const svg = d3.select('#chart').appendSelect('svg', 'chart');
-// ... instead of this...
-const svg = d3.select('#chart').select('svg.chart').size() === 0 ?
-  d3.select('#chart').append('svg').attr('class', 'chart') :
-  d3.select('#chart').select('svg.chart');
+
+// ... instead of this:
+let svg;
+if(d3.select('#chart').select('svg.chart').size() === 0) {
+  svg = d3.select('#chart')
+    .append('svg')
+    .attr('class', 'chart');
+} else {
+  svg = d3.select('#chart').select('svg.chart');
+}
 ```
 
-You can also chain `appendSelect` calls and assign multiple classes to appended elements:
+You can also chain `appendSelect` calls and assign multiple classes:
 
 ```javascript
 const g = d3.select('#chart')
@@ -57,7 +63,7 @@ Using `appendSelect` keeps your chart idempotent and agnostic to the conditions 
 ```javascript
 function render(selector, data) {
   const svg = d3.select(selector).appendSelect('svg');
-  // ...
+  // etc...
 }
 
 // Calling the chart function multiple times doesn't create multiple SVGs.
@@ -73,7 +79,7 @@ Out of the box, your chart module has methods to create, update and resize your 
 
 ```javascript
 const customOpts = {
-  stroke: 'orange'
+  fill: 'orange'
 };
 
 myChart.create('#selector', data, customOpts);
@@ -83,12 +89,12 @@ myChart.update(newData);
 myChart.resize();
 ```
 
-In reality these three methods are redundant. Because the chart is idempotent, the create function can be called again to resize or update the chart with new data. Update and resize methods are merely convenience functions whenever you don't need to change existing options or data on your chart.
+In reality these three methods are redundant. Because the chart is idempotent, the create function can be called again to resize or update the chart with new data. Update and resize methods are merely convenience functions you can use whenever you don't need to change existing options or the data that underlies your chart.
 
 
 #### Writing your chart with configurable options
 
-Writing you charts to be configurable by users extends their use and makes them more powerful templates.
+Writing you chart module to be configurable by users extends its use and makes it a more powerful template.
 
 For example, a user may wish to customize your chart's cosmetics by passing some options:
 
@@ -104,7 +110,7 @@ You can add these options to your chart's props object with defaults:
 
 ```javascript
 let props = {
-  stroke: '#eee',
+  stroke: '#EEE',
   fill: 'orange',
   // etc.
 };
@@ -131,6 +137,10 @@ chart.props = (obj) => {
 You can also use a deep merging function like lodash's [`_.merge`](https://lodash.com/docs/4.17.4#merge), if needed.
 
 ```javascript
+import merge from 'lodash/merge';
+
+// ...
+
 let props = {
   margins: {
     top: 0,
@@ -144,11 +154,11 @@ let props = {
 
 chart.props = (obj) => {
   if (!obj) return props;
-  props = _.merge(props, obj); // Deep merge
+  props = merge(props, obj); // Deep merge
   return chart;
 };
 
-// Used like this
+// Used like this:
 const customProps = {
   margins: {
     top: 20, // overwrites default for top. All others preserved.

@@ -1,38 +1,50 @@
 ![POLITICO](https://rawgithub.com/The-Politico/src/master/images/logo/badge.png)
 
-# <%= appName %>
+# <%= pkgName %>
 
-Chart module for _{your chart type here}_.
+A reusable chart module made with ❤️.
 
 ![](preview.png)
 
-## Install
+### Install
 ```bash
-$ npm install --save git+ssh://git@github.com:The-Politico/module_<%= appName %>
+$ yarn add git+ssh://git@github.com:The-Politico/<%= pkgName %>
 ```
 
-#### Requirements
+### Use
 
-This module uses ES6 syntax. To use as a pre-compiled module, you'll need a compiler like [babel](https://babeljs.io/).
+##### In the browser
 
-## Use
-
-In the client, include the `global-chart.js` bundle, which defines a global chart object, `<%= objName %>`:
+Include any dependencies, your stylesheet and the minified bundle, which defines a global chart object, `<%= clsName %>`.
 
 ```html
-<script src="some/path/to/global-chart.js"></script>
+<!-- head -->
+<script src="https://cdn.jsdelivr.net/npm/babel-polyfill@6.26.0/dist/polyfill.min.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="../chart.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../styles.css">
+
+<!-- body -->
+<div id="<%= clsName %>-container"></div>
+
+<script type="text/javascript">
+var myChart = new <%= clsName %>();
+
+myChart.create('#<%= clsName %>-container', data);
+</script>
 ```
+##### As a module
 
 To use as a module, simply import the chart object:
 ```javascript
-import <%= objName %> from '<%= appName %>';
+import <%= clsName %> from '<%= pkgName %>';
 ```
 
 
 The chart object has three methods, one to create the chart, initially, another to update chart elements with new data, and one to resize the chart.
 
 ```javascript
-var myChart = new <%= objName %>();
+const myChart = new <%= clsName %>();
 
 // The create method needs a selection string, which will be parent
 // to the chart elements, and a data array. You can also provide an
@@ -51,15 +63,25 @@ myChart.update(newData);
 myChart.resize();
 ```
 
-To apply this chart's default styles when using SCSS, simply define the variable `$<%= objName %>-container` to represent the ID or class of the chart's container(s) and import the `_chart-styles.scss` partial.
+To apply this chart's default styles when using SCSS, simply define the variable `$<%= clsName %>-container` to represent the ID or class of the chart's container(s) and import the `_chart.scss` partial.
 
 ```CSS
-$<%= objName %>-container: '#chart';
+$<%= clsName %>-container: '#chart';
 
-@import '../../node_modules/<%= appName %>/src/scss/_chart-styles';
+@import '~<%= pkgName %>/src/scss/chart';
 ```
 
 
 ### Developing the chart
 
-See [DEVELOPING](DEVELOPING.md).
+Start developing:
+```bash
+$ yarn start
+```
+
+Build for production:
+```bash
+$ yarn build
+```
+
+Read [DEVELOPING](DEVELOPING.md) for more information on using this chart module pattern.
