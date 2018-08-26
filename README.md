@@ -4,6 +4,8 @@
 
 A [Yeoman](http://yeoman.io) generator that scaffolds a development environment for building reusable graphic modules.
 
+![](circles.gif)
+
 ## Why this?
 
 Building data visualizations is expensive, especially for small teams balancing graphics with other development work. At POLITICO, we want to build our charts using patterns that promote reusability and that make them easy to  integrate in multiple contexts.
