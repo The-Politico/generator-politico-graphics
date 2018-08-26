@@ -32,9 +32,10 @@ module.exports = class extends Generator {
     this.fs.copy(
       this.templatePath('config/rollup.esm.js'),
       this.destinationPath('./config/rollup.esm.js'));
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('config/rollup.lib.js'),
-      this.destinationPath('./config/rollup.lib.js'));
+      this.destinationPath('./config/rollup.lib.js'),
+      { clsName: this.clsName });
     this.fs.copy(
       this.templatePath('config/webpack.dev.js'),
       this.destinationPath('./config/webpack.dev.js'));

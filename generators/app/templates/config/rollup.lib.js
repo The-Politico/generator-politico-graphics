@@ -26,7 +26,7 @@ export default {
   output: {
     file: path.resolve(process.cwd(), pkg.main),
     format: 'iife',
-    name: 'MyChart',
+    name: '<%= clsName %>',
     globals: {
       d3: 'd3',
     },
