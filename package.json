@@ -1,13 +1,14 @@
 {
   "name": "generator-politico-graphics",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Generator for developing graphic modules at POLITICO.",
   "main": "generators/app/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
-    "generators/**/*"
+    "generators/**/*",
+    "generators/app/templates/**/*"
   ],
   "keywords": [
     "yeoman-generator"
