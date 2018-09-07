@@ -21,8 +21,8 @@ Include any dependencies, your stylesheet and the minified bundle, which defines
 <!-- head -->
 <script src="https://cdn.jsdelivr.net/npm/babel-polyfill@6.26.0/dist/polyfill.min.js"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="../chart.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../styles.css">
+<script src="chart.min.js"></script>
+<link rel="stylesheet" type="text/css" href="styles.css">
 
 <!-- body -->
 <div id="<%= clsName %>-container"></div>
