@@ -1,14 +1,13 @@
 {
   "name": "generator-politico-graphics",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Generator for developing graphic modules at POLITICO.",
   "main": "generators/app/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
-    "generators/**/*",
-    "generators/app/templates/**/*"
+    "generators"
   ],
   "keywords": [
     "yeoman-generator"
@@ -19,7 +18,10 @@
     "url": "https://github.com/The-Politico"
   },
   "license": "MIT",
-  "repository": "The-Politico/generator-politico-graphics",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/The-Politico/generator-politico-graphics.git"
+  },
   "dependencies": {
     "@octokit/rest": "^15.10.0",
     "chalk": "^2.4.1",
