@@ -93,7 +93,7 @@ module.exports = class extends Generator {
       this.templatePath('gitignore'),
       this.destinationPath('./.gitignore'));
     this.fs.copyTpl(
-      this.templatePath('package.json'),
+      this.templatePath('_package.json'),
       this.destinationPath('./package.json'),
       { pkgName: this.pkgName });
     this.fs.copy(
