@@ -1,6 +1,6 @@
 {
   "name": "generator-politico-graphics",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Generator for developing graphic modules at POLITICO.",
   "main": "generators/app/index.js",
   "scripts": {

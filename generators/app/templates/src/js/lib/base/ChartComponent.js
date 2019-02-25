@@ -39,7 +39,7 @@ class ChartComponent {
    * @param  {Object} obj props
    */
   props(obj) {
-    if (!obj) return this._props;
+    if (!obj) return this._props || this.defaultProps;
 
     if (!(obj instanceof Object)) {
       throw new ErrorPropsType(this.constructor.name);
@@ -60,7 +60,7 @@ class ChartComponent {
    * @param  {Array} arr data
    */
   data(arr) {
-    if (!arr) return this._data instanceof Array ? this._data : this.defaultData;
+    if (!arr) return this._data || this.defaultData;
 
     if (!(arr instanceof Array)) {
       throw new ErrorDataType(this.constructor.name);
