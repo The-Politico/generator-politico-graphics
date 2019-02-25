@@ -1,6 +1,6 @@
 {
   "name": "generator-politico-graphics",
-  "version": "1.0.7",
+  "version": "2.0.0",
   "description": "Generator for developing graphic modules at POLITICO.",
   "main": "generators/app/index.js",
   "scripts": {
@@ -32,9 +32,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.56",
+    "@politico/eslint-config-interactives": "^0.0.4",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^8.2.5",
-    "eslint": "^4.19.1",
+    "eslint": "^5.14.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.1.0",

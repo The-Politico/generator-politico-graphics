@@ -19,7 +19,7 @@ const babelOpts = {
 };
 
 export default {
-  input: path.resolve(process.cwd(), 'src/js/lib/chart.js'),
+  input: path.resolve(process.cwd(), 'src/js/lib/Chart.js'),
   output: {
     file: path.resolve(process.cwd(), pkg.module),
     format: 'es',

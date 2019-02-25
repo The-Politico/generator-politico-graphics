@@ -51,14 +51,21 @@ module.exports = class extends Generator {
       this.templatePath('src/js/demo/Chart.jsx'),
       this.destinationPath('./src/js/demo/Chart.jsx'));
     this.fs.copy(
+      this.templatePath('src/js/lib/base/ChartComponent.js'),
+      this.destinationPath('./src/js/lib/base/ChartComponent.js'));
+    this.fs.copy(
+      this.templatePath('src/js/lib/base/errorClasses.js'),
+      this.destinationPath('./src/js/lib/base/errorClasses.js'));
+    this.fs.copy(
       this.templatePath('src/js/lib/data/default.json'),
       this.destinationPath('./src/js/lib/data/default.json'));
     this.fs.copy(
       this.templatePath('src/js/lib/utils/d3.js'),
       this.destinationPath('./src/js/lib/utils/d3.js'));
-    this.fs.copy(
-      this.templatePath('src/js/lib/chart.js'),
-      this.destinationPath('./src/js/lib/chart.js'));
+    this.fs.copyTpl(
+      this.templatePath('src/js/lib/Chart.js'),
+      this.destinationPath('./src/js/lib/Chart.js'),
+      { clsName: this.clsName });
     this.fs.copy(
       this.templatePath('src/js/lib/global.js'),
       this.destinationPath('./src/js/lib/global.js'));

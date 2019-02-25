@@ -38,7 +38,6 @@ module.exports = class extends Generator {
     });
   }
 
-
   writing() {
     const root = this.destinationRoot();
 

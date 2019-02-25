@@ -1,4 +1,4 @@
-![POLITICO](https://rawgithub.com/The-Politico/src/master/images/logo/badge.png)
+![POLITICO](https://www.politico.com/interactives/cdn/images/badge.svg)
 
 # <%= pkgName %>
 
@@ -19,7 +19,6 @@ Include any dependencies, your stylesheet and the minified bundle, which defines
 
 ```html
 <!-- head -->
-<script src="https://cdn.jsdelivr.net/npm/babel-polyfill@6.26.0/dist/polyfill.min.js"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="chart.min.js"></script>
 <link rel="stylesheet" type="text/css" href="styles.css">
@@ -30,7 +29,10 @@ Include any dependencies, your stylesheet and the minified bundle, which defines
 <script type="text/javascript">
 var myChart = new <%= clsName %>();
 
-myChart.create('#<%= clsName %>-container', data);
+myChart
+  .selection('#<%= clsName %>-container')
+  .data(data)
+  .draw();
 </script>
 ```
 ##### As a module
@@ -41,26 +43,24 @@ import <%= clsName %> from '<%= pkgName %>';
 ```
 
 
-The chart object has three methods, one to create the chart, initially, another to update chart elements with new data, and one to resize the chart.
-
 ```javascript
 const myChart = new <%= clsName %>();
 
-// The create method needs a selection string, which will be parent
-// to the chart elements, and a data array. You can also provide an
-// optional properties object.
+// To create your chart, pass a selector string to the chart's selection method,
+// as well as any props or data to their respective methods. Then call draw.
+myChart
+  .selection('#chart')
+  .data([1, 2, 3])
+  .props({ stroke: 'orange' })
+  .draw();
 
-const props = {
-  stroke: 'orange',
-};
+// You can call any method again to update the chart.
+myChart
+  .data([3, 4, 5])
+  .draw();
 
-myChart.create('#chart', data, props);
-
-// The update method takes new data to update chart elements.
-myChart.update(newData);
-
-// The resize method can be called at any point to update the chart's size.
-myChart.resize();
+// Or just call the draw function alone, which is useful for resizing the chart.
+myChart.draw();
 ```
 
 To apply this chart's default styles when using SCSS, simply define the variable `$<%= clsName %>-container` to represent the ID or class of the chart's container(s) and import the `_chart.scss` partial.

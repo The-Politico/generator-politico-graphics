@@ -1,16 +1,16 @@
-# Developing chart modules
+# Developing chart components
 
 ### Theory
 
 Read Mike Bostock's foundational doc, "[Towards Reusable Charts](https://bost.ocks.org/mike/chart/)."
 
-This chart module pattern supplements Bostock's reusable proposal by emphasizing [idempotence](http://www.restapitutorial.com/lessons/idempotency.html) in the chart's render method. This means all state is external to the chart, passed to it through function parameters. This configuration makes charts extremely portable. You get a single chart function you can call anywhere in your code at anytime in the DOM process, making it easy to create multiples of the same chart and to handle resize events and updates to the underlying data.
+This chart component pattern supplements Bostock's reusable proposal by emphasizing [idempotence](http://www.restapitutorial.com/lessons/idempotency.html) in the chart's render method. Data and configuration are external to the chart, passed to it through props. That makes charts extremely portable. You get a single chart function you can call anywhere in your code at any time in the DOM process, making it easy to create multiples of the same chart and to handle resize events and updates to the underlying data.
 
 ### In practice
 
 #### Writing code
 
-Write your chart code in `js/lib/chart.js` and add custom styles to `scss/_chart.scss`.
+Write your chart code in the `draw` method of your custom chart component in `src/js/lib/Chart.js` and add custom styles to `scss/_chart.scss`.
 
 Develop with:
 ```bash
@@ -24,9 +24,9 @@ $ yarn build
 
 #### Writing idempotent charts with `appendSelect`
 
-The chart module is structured around an idempotent chart function. Your chart's render method can be called anywhere, anytime and will produce the same chart as long as it's called with the same parameters.
+The chart component is structured around an idempotent chart function. Your chart's `draw` method can be called anywhere, anytime and will produce the same chart as long as it's called with the same data and props.
 
-To help you write idempotent chart functions, the module adds a custom method to d3. `appendSelect` will either append an element (with a class) if it doesn't exist or will return the selection of the first existing element that matches the given selector.
+To help you write idempotent chart functions, this module adds a custom method to d3. `appendSelect` will either append an element (with a class) if it doesn't exist or will return the selection of the first existing element that matches the given selector.
 
 ```javascript
 selection.appendSelect(<selector_string>, <class_string>);
@@ -73,97 +73,97 @@ render('#myChart', newData);
 render('#anotherChart', otherData);
 ```
 
+
 #### Chart methods
 
-Out of the box, your chart module has methods to create, update and resize your chart.
+Out of the box, your chart component has several getter-setter methods to get and set the root d3 selection, the data your chart will use and some props you can use to configure display options or to pass more complex logic to your chart.
 
 ```javascript
-const customOpts = {
-  fill: 'orange'
-};
+const chart = new MyChartComponent();
 
-myChart.create('#selector', data, customOpts);
+chart
+  .selection('#selector')
+  .data([1, 2, 3])
+  .props({ fill: 'orange' })
+  .draw();
 
-myChart.update(newData);
+chart.selection();
+// A d3 selection of #selector
 
-myChart.resize();
+chart.data();
+// [1, 2, 3]
+
+chart.props();
+// { fill: 'orange' }
 ```
 
-In reality these three methods are redundant. Because the chart is idempotent, the create function can be called again to resize or update the chart with new data. Update and resize methods are merely convenience functions you can use whenever you don't need to change existing options or the data that underlies your chart.
+Each method is extended from the `ChartComponent` base class, with the exception of `draw`, which you must define with your chart code. Of course you can always overwrite any of methods you like, but the built in ones offer some nice conveniences.
 
-
-#### Writing your chart with configurable options
-
-Writing you chart module to be configurable by users extends its use and makes it a more powerful template.
-
-For example, a user may wish to customize your chart's cosmetics by passing some options:
+For example, within your chart component you can set defaults for props and data so users can start with sensible defaults.
 
 ```javascript
-const customOptions = {
+class MyChartComponent extends ChartComponent {
+  defaultProps = {
     stroke: '#333',
-};
+    fill: 'steelblue',
+  }
 
-myChart.create('#chart', data, customOptions);
+  defaultData = [3, 4, 5]
+
+  draw() {
+    // ...
+  }
+}
 ```
 
-You can add these options to your chart's props object with defaults:
+When users set props on their chart instance, they will be merged with these defaults using [lodash's merge method](https://lodash.com/docs/4.17.11#merge).
+
+Using the example above, a user can override just one prop and the other defaults will persist:
 
 ```javascript
-let props = {
-  stroke: '#EEE',
-  fill: 'orange',
-  // etc.
-};
+const chart = new MyChartComponent();
+
+chart.props({ fill: 'orange' });
+
+chart.props();
+// { fill: 'orange', stroke: '#333' }
 ```
 
-Then use these props in your chart's `render` method.
+As you're writing your chart component, you can use these same methods to get data using `this`.
 
 ```javascript
-circles
-  .attr('stroke', props.stroke)
-  .attr('fill', props.fill);
+class MyChartComponent extends ChartComponent {
+  // ...
+
+  draw() {
+    this.selection()
+      .appendSelect('svg');
+
+    const fillColor = this.props().fill;
+    const chartData = this.data();
+
+    // ...
+  }
+}
 ```
 
-When a user calls your chart with custom props, they are shallowly merged with defaults in a getter-setter using [Object.assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign).
+In more complex cases, you can even use the props method to *set* some internal state.
 
 ```javascript
-chart.props = (obj) => {
-  if (!obj) return props;
-  props = Object.assign(props, obj);
-  return chart;
-};
-```
+class MyChartComponent extends ChartComponent {
+  defaultProps = {
+    counter = 0;
+  }
 
-You can also use a deep merging function like lodash's [`_.merge`](https://lodash.com/docs/4.17.4#merge), if needed.
+  draw() {
+    const { counter } = this.props();
 
-```javascript
-import merge from 'lodash/merge';
-
-// ...
-
-let props = {
-  margins: {
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-  },
-};
-
-// ...
-
-chart.props = (obj) => {
-  if (!obj) return props;
-  props = merge(props, obj); // Deep merge
-  return chart;
-};
-
-// Used like this:
-const customProps = {
-  margins: {
-    top: 20, // overwrites default for top. All others preserved.
-  },
-};
-
-myChart.create('#chart', data, customProps);
+    this.selection()
+      .appendSelect('button')
+      .text('Click me!')
+      .on('click', () => {
+        this.props({ counter: counter + 1 });
+      });
+  }
+}
 ```

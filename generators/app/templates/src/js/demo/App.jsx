@@ -11,7 +11,7 @@ const root = document.getElementById('app');
 
 const App = () => (
   <div>
-    <Nav appName="<%= clsName %> demo" />
+    <Nav appName='<%= clsName %> demo' />
     <Chart />
     <Footer />
   </div>
