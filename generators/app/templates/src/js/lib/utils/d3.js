@@ -41,7 +41,7 @@ d3.selection.prototype.moveToBack = function() {
 d3.selection.prototype.appendSelect = function(el, cls) {
   const selected = cls ?
     this.select(`${el}.${cls.split(' ').join('.')}`) : this.select(el);
-  if (selected.size() === 0) {
+  if (selected.empty()) {
     return cls ? this.append(el).classed(cls, true) : this.append(el);
   }
   return selected;
